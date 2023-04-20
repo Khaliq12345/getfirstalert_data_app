@@ -7,7 +7,7 @@ from streamlit_extras.colored_header import colored_header
 #config
 host = st.secrets.HOST
 port = st.secrets.PORT
-inf_database = st.secrets.inf_DB
+inf_database = st.secrets.INF_DB
 user = st.secrets.USER
 password = st.secrets.PASSWORD
 
