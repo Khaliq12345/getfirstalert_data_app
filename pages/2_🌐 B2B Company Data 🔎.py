@@ -4,6 +4,7 @@ from urllib.parse import urlparse
 from sqlalchemy import create_engine, text
 from streamlit_extras.dataframe_explorer import dataframe_explorer
 from streamlit_extras.colored_header import colored_header
+from math import ceil
 
 #config
 host = st.secrets.HOST
@@ -85,7 +86,16 @@ def main():
             st.session_state['dataframe'] = dataframe
     try:
         new_df = get_new_df(st.session_state['dataframe'])
-        new_df = dataframe_explorer(new_df)
+        page_size = 1000
+        page_number = st.number_input(
+        label="Page Number",
+        min_value=1,
+        max_value=ceil(len(new_df)/page_size),
+        step=1,
+        )
+        current_start = (page_number-1)*page_size
+        current_end = page_number*page_size
+        new_df = dataframe_explorer(new_df[current_start:current_end])
         st.dataframe(new_df, use_container_width=True)
 
         csv = convert_df(new_df)
