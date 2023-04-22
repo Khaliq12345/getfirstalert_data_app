@@ -74,7 +74,7 @@ def get_new_df(df):
     return new_df
 
 def main():
-    table = st.selectbox('Choose Database', ('travel_agent', 'travel_booking_sites', 
+    table = st.selectbox('Choose Database', ('travel_agency', 'travel_booking_sites', 
     'concert_tour_companies', 'travel_insurance', 'event_coordinators', 'taxi_companies',
     'car_rental', 'tour_operators', 'tourism_association', 'airlines', 'cruise_ship',
     'travel_publication'))
