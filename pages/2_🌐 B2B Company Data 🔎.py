@@ -65,7 +65,7 @@ def clean_links(links):
 
 #function to get the new dataframe with clean domains
 def get_new_df(df):
-    new_df = df[['Buisness Name', 'Website', 'Country', 'Description']]
+    new_df = df[['Company', 'Website', 'Company Country', 'Short Description']]
     new_df = new_df.dropna()
     new_df =  new_df[~new_df['Website'].str.contains('facebook.com')]
     new_df = new_df.drop_duplicates()
