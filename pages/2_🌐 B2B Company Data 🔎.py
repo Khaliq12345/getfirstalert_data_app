@@ -41,8 +41,6 @@ if 'data' not in st.session_state:
 def cool_df(df):
     gb = GridOptionsBuilder.from_dataframe(df)
     gb.configure_pagination(paginationAutoPageSize=False, paginationPageSize=100)
-    gb.configure_default_column(groupable=True, value=True, enableRowGroup=True, editable=True)
-    gb.configure_selection('multiple',header_checkbox=True)
     gb.configure_grid_options(enableRangeSelection = True)
     gridOptions = gb.build()
     return gridOptions
