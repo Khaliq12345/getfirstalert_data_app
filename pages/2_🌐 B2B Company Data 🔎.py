@@ -37,6 +37,7 @@ if 'data' not in st.session_state:
     st.session_state['data'] = None
 
 #get a better dataframe
+@st.cache_data
 def cool_df(df):
     gb = GridOptionsBuilder.from_dataframe(df)
     gb.configure_pagination(paginationAutoPageSize=False, paginationPageSize=100)
@@ -98,7 +99,6 @@ def main():
     try:
         new_df = get_new_df(st.session_state['dataframe'])
         AgGrid(new_df, cool_df(new_df), width='200%')
-
         csv = convert_df(new_df)
         st.download_button(
             label="Download data as CSV",
