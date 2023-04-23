@@ -55,6 +55,8 @@ if 'access' not in st.session_state:
     st.session_state['access'] = False
 
 def main():
+    if 'inf_pagenumber' not in st.session_state:
+        st.session_state['inf_pagenumber'] = 0
     table = st.selectbox('Choose Database', ('travel_blogger', 'travel_addict', 
     'travel_blog', 'traveller', 'travelphotographer', 'vacation','tourism'))
     if st.button('Search!'):
@@ -64,8 +66,25 @@ def main():
             inf_dataframe = get_all_data(table)
             st.session_state['inf_dataframe'] = inf_dataframe
     try:
-        new_df = get_new_df(st.session_state['inf_dataframe'])      
-        new_df = dataframe_explorer(new_df)
+        new_df = get_new_df(st.session_state['inf_dataframe'])  
+        N = 100
+        last_page = len(new_df) // N
+        if next.button("Next"):
+            if st.session_state['inf_pagenumber'] + 1 > last_page:
+                st.session_state['inf_pagenumber'] = 0
+            else:
+                st.session_state['inf_pagenumber'] += 1
+
+        if prev.button("Prev"):
+            if st.session_state['inf_pagenumber'] - 1 < 0:
+                st.session_state['inf_pagenumber'] = last_page
+            else:
+                st.session_state['inf_pagenumber'] -= 1
+        # Get start and end indices of the next page of the dataframe
+        start_idx = st.session_state['inf_pagenumber'] * N 
+        end_idx = (1 + st.session_state['inf_pagenumber']) * N
+        df_to_display = dataframe_explorer(new_df.iloc[start_idx:end_idx])    
+        new_df = dataframe_explorer(df_to_display)
         st.dataframe(new_df, use_container_width=True)
 
         csv = convert_df(new_df)
