@@ -36,15 +36,6 @@ if 'country' not in st.session_state:
 if 'data' not in st.session_state:
     st.session_state['data'] = None
 
-#get a better dataframe
-@st.cache_data
-def cool_df(df):
-    gb = GridOptionsBuilder.from_dataframe(df)
-    gb.configure_pagination(paginationAutoPageSize=False, paginationPageSize=100)
-    gb.configure_grid_options(enableRangeSelection = True)
-    gridOptions = gb.build()
-    return gridOptions
-
 #get the engine
 @st.cache_resource
 def b2b_get_engine():
@@ -96,7 +87,18 @@ def main():
             st.session_state['dataframe'] = dataframe
     try:
         new_df = get_new_df(st.session_state['dataframe'])
-        AgGrid(new_df, cool_df(new_df), width='200%')
+        page_size = 1000
+        page_number = st.number_input(
+        label="Page Number",
+        min_value=1,
+        max_value=ceil(len(new_df)/page_size),
+        step=1,
+        )
+        current_start = (page_number-1)*page_size
+        current_end = page_number*page_size
+        new_df = dataframe_explorer(new_df[current_start:current_end])
+        st.dataframe(new_df, use_container_width=True)
+
         csv = convert_df(new_df)
         st.download_button(
             label="Download data as CSV",
