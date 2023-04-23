@@ -54,7 +54,7 @@ def main():
                 st.session_state['leads_dataframe'] = dataframe
     prev, _ ,next = st.columns([1, 10, 1])
     try:
-        new_df = st.session_state['leads_dataframe'] 
+        new_df = st.session_state['leads_dataframe']
         N = 100
         last_page = len(new_df) // N
         if next.button("Next"):
