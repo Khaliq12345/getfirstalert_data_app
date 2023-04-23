@@ -65,7 +65,6 @@ def get_new_df(df):
     return new_df
 
 def main():
-    prev, _ ,next = st.columns([1, 10, 1])
     if 'pagenumber' not in st.session_state:
         st.session_state['pagenumber'] = 0
     table = st.selectbox('Choose Database', ('travel_agency', 'travel_booking_sites', 
@@ -78,6 +77,7 @@ def main():
         if 'dataframe' not in st.session_state:
             dataframe = get_all_data(table)
             st.session_state['dataframe'] = dataframe
+    prev, _ ,next = st.columns([1, 10, 1])
     try:
         new_df = get_new_df(st.session_state['dataframe'])
         N = 100
