@@ -77,9 +77,10 @@ def main():
         if 'dataframe' not in st.session_state:
             dataframe = get_all_data(table)
             st.session_state['dataframe'] = dataframe
-    prev, _ ,next = st.columns([1, 10, 1])
+    prev, total_data ,next = st.columns([1, 10, 1])
     try:
         new_df = get_new_df(st.session_state['dataframe'])
+        total_data.write(len(new_df))
         N = 100
         last_page = len(new_df) // N
         if next.button("Next"):

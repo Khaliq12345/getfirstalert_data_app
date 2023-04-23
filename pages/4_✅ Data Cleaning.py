@@ -52,9 +52,10 @@ def main():
             if 'leads_dataframe' not in st.session_state:
                 dataframe = get_new_df(dataframe)
                 st.session_state['leads_dataframe'] = dataframe
-    prev, _ ,next = st.columns([1, 10, 1])
+    prev, total_data ,next = st.columns([1, 10, 1])
     try:
         new_df = st.session_state['leads_dataframe']
+        total_data.write(len(new_df))
         N = 100
         last_page = len(new_df) // N
         if next.button("Next"):
