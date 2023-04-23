@@ -41,6 +41,8 @@ def get_new_df(df):
     return df
 
 def main():
+    if 'lead_pagenumber' not in st.session_state:
+        st.session_state['lead_pagenumber'] = 0
     uploaded_file = st.file_uploader("Choose a file", type=['csv'])
     if uploaded_file is not None:
         dataframe = pd.read_csv(uploaded_file)
@@ -50,10 +52,28 @@ def main():
             if 'leads_dataframe' not in st.session_state:
                 dataframe = get_new_df(dataframe)
                 st.session_state['leads_dataframe'] = dataframe
-    try:                  
-        dataframe = dataframe_explorer(st.session_state['leads_dataframe'])
-        st.write(dataframe)
-        csv = convert_df(dataframe)
+    try:
+        new_df = st.session_state['leads_dataframe'] 
+        N = 100
+        last_page = len(new_df) // N
+        if next.button("Next"):
+            if st.session_state['lead_pagenumber'] + 1 > last_page:
+                st.session_state['lead_pagenumber'] = 0
+            else:
+                st.session_state['lead_pagenumber'] += 1
+
+        if prev.button("Prev"):
+            if st.session_state['lead_pagenumber'] - 1 < 0:
+                st.session_state['lead_pagenumber'] = last_page
+            else:
+                st.session_state['lead_pagenumber'] -= 1
+        # Get start and end indices of the next page of the dataframe
+        start_idx = st.session_state['lead_pagenumber'] * N 
+        end_idx = (1 + st.session_state['lead_pagenumber']) * N
+        df_to_display = dataframe_explorer(new_df.iloc[start_idx:end_idx])               
+        st.dataframe(df_to_display, use_container_width=True)
+
+        csv = convert_df(new_df)
         st.download_button(
             label="Download data as CSV",
             data=csv,
