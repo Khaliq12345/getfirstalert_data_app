@@ -88,7 +88,7 @@ def main():
             else:
                 st.session_state['pagenumber'] += 1
 
-        if prev.button("Previous"):
+        if prev.button("Prev"):
             if st.session_state['pagenumber'] - 1 < 0:
                 st.session_state['pagenumber'] = last_page
             else:
