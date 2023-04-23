@@ -57,8 +57,8 @@ if 'access' not in st.session_state:
 def main():
     if 'inf_pagenumber' not in st.session_state:
         st.session_state['inf_pagenumber'] = 0
-    table = st.selectbox('Choose Database', ('travel_blogger', 'travel_addict', 
-    'travel_blog', 'traveller', 'travelphotographer', 'vacation','tourism'))
+    table = st.selectbox('Choose Database', ('travel_blogger', 'travel_addict'
+    , 'traveller', 'travelphotographer', 'vacation','tourism'))
     if st.button('Search!'):
         if 'inf_dataframe' in st.session_state:
             del st.session_state['inf_dataframe']
