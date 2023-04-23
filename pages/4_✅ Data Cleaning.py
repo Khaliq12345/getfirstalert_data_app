@@ -52,6 +52,7 @@ def main():
             if 'leads_dataframe' not in st.session_state:
                 dataframe = get_new_df(dataframe)
                 st.session_state['leads_dataframe'] = dataframe
+    prev, _ ,next = st.columns([1, 10, 1])
     try:
         new_df = st.session_state['leads_dataframe'] 
         N = 100
