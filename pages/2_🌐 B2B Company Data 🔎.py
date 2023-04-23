@@ -97,7 +97,7 @@ def main():
             st.session_state['dataframe'] = dataframe
     try:
         new_df = get_new_df(st.session_state['dataframe'])
-        AgGrid(new_df, cool_df(new_df), width='200%', allow_unsafe_jscode=True)
+        AgGrid(new_df, cool_df(new_df), width='200%')
 
         csv = convert_df(new_df)
         st.download_button(
