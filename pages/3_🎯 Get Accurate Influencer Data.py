@@ -65,7 +65,7 @@ def main():
         if 'inf_dataframe' not in st.session_state:
             inf_dataframe = get_all_data(table)
             st.session_state['inf_dataframe'] = inf_dataframe
-    prev, _ ,next = st.columns([1, 10, 1])
+    prev, total_data ,next = st.columns([1, 10, 1])
     try:
         new_df = get_new_df(st.session_state['inf_dataframe'])
         total_data.success(len(new_df))  
