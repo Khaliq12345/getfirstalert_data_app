@@ -63,9 +63,7 @@ def get_new_df(df):
     new_df = new_df.drop_duplicates()
     new_df = new_df.drop_duplicates(subset=['Website'])
     return new_df
-    
-N = 100
-last_page = len(data) // N
+
 def main():
     prev, _ ,next = st.columns([1, 10, 1])
     if 'pagenumber' not in st.session_state:
@@ -82,6 +80,8 @@ def main():
             st.session_state['dataframe'] = dataframe
     try:
         new_df = get_new_df(st.session_state['dataframe'])
+        N = 100
+        last_page = len(new_df) // N
         if next.button("Next"):
             if st.session_state['pagenumber'] + 1 > last_page:
                 st.session_state['pagenumber'] = 0
@@ -96,8 +96,8 @@ def main():
         # Get start and end indices of the next page of the dataframe
         start_idx = st.session_state['pagenumber'] * N 
         end_idx = (1 + st.session_state['pagenumber']) * N
-        new_df = dataframe_explorer(new_df)
-        st.dataframe(new_df, use_container_width=True)
+        df_to_display = dataframe_explorer(new_df.iloc[start_idx:end_idx])
+        st.dataframe(df_to_display, use_container_width=True)
 
         csv = convert_df(new_df)
         st.download_button(
