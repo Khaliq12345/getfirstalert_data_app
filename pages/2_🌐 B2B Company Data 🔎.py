@@ -55,26 +55,21 @@ def get_all_data(table):
     engine.dispose()
     return df
 
-#function to clean the links
-def clean_links(links):
-    all_link = []
-    for link in links:
-        parsed_url = urlparse(link)
-        domain_name = parsed_url.netloc
-        all_link.append(domain_name)
-    return all_link
-
 #function to get the new dataframe with clean domains
 def get_new_df(df):
     new_df = df[['Company', 'Website', 'Company Country', 'Short Description']]
     new_df = new_df.dropna()
     new_df =  new_df[~new_df['Website'].str.contains('facebook.com')]
     new_df = new_df.drop_duplicates()
-    new_df['Website'] = clean_links(new_df['Website'].to_list())
     new_df = new_df.drop_duplicates(subset=['Website'])
     return new_df
-
+    
+N = 100
+last_page = len(data) // N
 def main():
+    prev, _ ,next = st.columns([1, 10, 1])
+    if 'pagenumber' not in st.session_state:
+        st.session_state['pagenumber'] = 0
     table = st.selectbox('Choose Database', ('travel_agency', 'travel_booking_sites', 
     'concert_tour_companies', 'travel_insurance', 'event_coordinators', 'taxi_companies',
     'car_rental', 'tour_operators', 'tourism_association', 'airlines', 'cruise_ship',
@@ -87,6 +82,20 @@ def main():
             st.session_state['dataframe'] = dataframe
     try:
         new_df = get_new_df(st.session_state['dataframe'])
+        if next.button("Next"):
+            if st.session_state['pagenumber'] + 1 > last_page:
+                st.session_state['pagenumber'] = 0
+            else:
+                st.session_state['pagenumber'] += 1
+
+        if prev.button("Previous"):
+            if st.session_state['pagenumber'] - 1 < 0:
+                st.session_state['pagenumber'] = last_page
+            else:
+                st.session_state['pagenumber'] -= 1
+        # Get start and end indices of the next page of the dataframe
+        start_idx = st.session_state['pagenumber'] * N 
+        end_idx = (1 + st.session_state['pagenumber']) * N
         new_df = dataframe_explorer(new_df)
         st.dataframe(new_df, use_container_width=True)
 
