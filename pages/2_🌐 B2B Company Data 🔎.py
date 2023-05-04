@@ -67,10 +67,8 @@ def get_new_df(df):
 def main():
     if 'pagenumber' not in st.session_state:
         st.session_state['pagenumber'] = 0
-    table = st.selectbox('Choose Database', ('travel_agency', 
-    'travel_insurance', 'event_coordinators', 'taxi_companies',
-    'car_rental', 'tour_operators', 'tourism_association', 'airlines', 'cruise_ship',
-    'travel_publication'))
+    table = st.selectbox('Choose Database', ('travel', 'event_coordinators', 'taxi_companies',
+    'car_rental', 'tour_operators', 'airlines', 'cruise_ship'))
     if st.button('Search!'):
         if 'dataframe' in st.session_state:
             del st.session_state['dataframe']
