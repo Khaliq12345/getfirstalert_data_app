@@ -32,9 +32,9 @@ def is_valid(address):
     return result
 
 def get_new_df(df):
-    df = df[['person_first_name', 'person_last_name',
-             'person_job_title', 'person_business_email', 'person_company_name',
-             'person_phone']]
+    df = df[['person_company_name', 'person_first_name', 'person_last_name',
+              'person_business_email'
+              ]]
     #df['valid'] = df['person_business_email'].apply(is_valid)
     #df = df[df['valid'] == True]
     df = df.drop_duplicates(subset=['person_business_email'])
