@@ -5,7 +5,6 @@ from sqlalchemy import create_engine, text
 from streamlit_extras.dataframe_explorer import dataframe_explorer
 from streamlit_extras.colored_header import colored_header
 from math import ceil
-from st_aggrid import AgGrid, GridOptionsBuilder
 
 #config
 host = st.secrets.HOST
