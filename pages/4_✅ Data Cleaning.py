@@ -43,9 +43,12 @@ def get_new_df(df):
 def main():
     if 'lead_pagenumber' not in st.session_state:
         st.session_state['lead_pagenumber'] = 0
-    uploaded_file = st.file_uploader("Choose a file", type=['csv'])
+    uploaded_file = st.file_uploader("Choose a file", type=['csv','xlsx'])
     if uploaded_file is not None:
-        dataframe = pd.read_csv(uploaded_file)
+        try:
+            dataframe = pd.read_csv(uploaded_file)
+        except:
+            dataframe = pd.read_excel(uploaded_file)
         if st.button('Clean'):
             if 'leads_dataframe' in st.session_state:
                 del st.session_state['leads_dataframe']
