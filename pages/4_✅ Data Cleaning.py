@@ -38,6 +38,7 @@ def get_new_df(df):
     #df['valid'] = df['person_business_email'].apply(is_valid)
     #df = df[df['valid'] == True]
     df = df.drop_duplicates(subset=['person_business_email'])
+    df.dropna(inplace=True)
     return df
 
 def main():
